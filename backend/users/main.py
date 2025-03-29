@@ -19,8 +19,8 @@ async def get_current_user(request: Request, response: Response) -> UserInKeyclo
         )
     userinfo = auth.get_user_info(token)
     if userinfo is None:
-        token = refresh_token(request, response)
-        userinfo = auth.get_user_info(token)
+        token = await refresh_token(request, response)
+        userinfo = auth.get_user_info(token.access_token)
         if userinfo is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

@@ -9,9 +9,11 @@ FRIENDS_SERVICE_URL = "http://localhost:8020"
 async def verify_auth(cookie):
     async with httpx.AsyncClient() as client:
         try:
+            print("do auth")
             response = await client.post(
                 f"{AUTH_SERVICE_URL}/auto-verify", cookies=cookie
             )
+            print("end auth")
             response.raise_for_status()
             return response.json()
         except httpx.HTTPStatusError as e:
@@ -27,9 +29,11 @@ async def get_id(cookie) -> int:
         raise HTTPException(status_code=401, detail="Unauthorized")
     async with httpx.AsyncClient() as client:
         try:
+            print("do reqeust")
             response = await client.post(
                 f"{AUTH_SERVICE_URL}/get_user_id", cookies=cookie
             )
+            print("done")
             response.raise_for_status()
             return response.json()["id"]
         except httpx.HTTPStatusError as e:

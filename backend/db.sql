@@ -55,6 +55,23 @@
         FOREIGN KEY (USER_ID) REFERENCES users(ID)
     );
 
+CREATE TABLE ankets (
+        ID SERIAL PRIMARY KEY,
+        USER_ID INT UNIQUE NOT NULL,
+        NAME VARCHAR(255) NOT NULL,
+        AVATAR BOOLEAN DEFAULT FALSE,
+        AGE INT,
+        SEX BOOLEAN,
+        SEX_FIND BOOLEAN,
+        DESCRIPTION TEXT,
+        LAT NUMERIC,
+        LON NUMERIC,
+        RATING INT,
+        FOREIGN KEY (USER_ID) REFERENCES users(ID)
+    );
+
+    
+
     CREATE TABLE chats (
         CHAT_ID SERIAL PRIMARY KEY,
         users INT[],
