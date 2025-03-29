@@ -1,0 +1,62 @@
+    CREATE TABLE users (
+        ID SERIAL PRIMARY KEY,
+        keycloak_id  VARCHAR(255) UNIQUE NOT NULL,
+        username VARCHAR(255) NOT NULL
+    );
+
+    CREATE TABLE posts (
+        ID SERIAL PRIMARY KEY,
+        AUTHOR_ID INT NOT NULL,
+        DESCRIPTION TEXT,
+        LIKES INT DEFAULT 0,
+        COMMENTS INT DEFAULT 0,
+        FOREIGN KEY (AUTHOR_ID) REFERENCES users(ID)
+    );
+
+    CREATE TABLE likes (
+        ID SERIAL PRIMARY KEY,
+        POST_ID INT NOT NULL,
+        USER_ID INT NOT NULL,
+        FOREIGN KEY (POST_ID) REFERENCES posts(ID),
+        FOREIGN KEY (USER_ID) REFERENCES users(ID)
+    );
+
+    CREATE TABLE comments (
+        ID SERIAL PRIMARY KEY,
+        POST_ID INT NOT NULL,
+        USER_ID INT NOT NULL,
+        COMMENT TEXT,
+        FOREIGN KEY (POST_ID) REFERENCES posts(ID),
+        FOREIGN KEY (USER_ID) REFERENCES users(ID)
+    );
+
+    CREATE TABLE friends (
+        FRIEND_1 INT NOT NULL,
+        FRIEND_2 INT NOT NULL,
+        FOREIGN KEY (FRIEND_1) REFERENCES users(ID),
+        FOREIGN KEY (FRIEND_2) REFERENCES users(ID)
+    );
+
+    CREATE TABLE friends_requests (
+        USER_ID INT NOT NULL,
+        SENDER_ID INT NOT NULL,
+        FOREIGN KEY (USER_ID) REFERENCES users(ID),
+        FOREIGN KEY (SENDER_ID) REFERENCES users(ID)
+    );
+
+
+    CREATE TABLE profiles (
+        ID SERIAL PRIMARY KEY,
+        USER_ID INT UNIQUE NOT NULL,
+        NAME VARCHAR(255) NOT NULL,
+        AVATAR BOOLEAN DEFAULT FALSE,
+        AGE INT,
+        DESCRIPTION TEXT,
+        FOREIGN KEY (USER_ID) REFERENCES users(ID)
+    );
+
+    CREATE TABLE chats (
+        CHAT_ID SERIAL PRIMARY KEY,
+        users INT[],
+        chat JSONB
+    );

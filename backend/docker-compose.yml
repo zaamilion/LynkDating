@@ -1,0 +1,64 @@
+version: "3.9"
+services:
+  # Keycloak Database
+  keycloak-postgres:
+    image: library/postgres:14
+    container_name: keycloak-postgres
+    restart: on-failure
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: keycloak # Dedicated database for Keycloak
+    volumes:
+      - keycloak-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -U postgres -d keycloak
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    ports:
+      - 5435:5432
+
+  # Keycloak Service
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.2
+    container_name: keycloak
+    command:
+      - start --auto-build --db=postgres --hostname-strict-https=false --hostname-strict=false --proxy=edge --http-enabled=true
+    environment:
+      KC_DB_URL: jdbc:postgresql://keycloak-postgres:5432/keycloak
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: postgres
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    depends_on:
+      keycloak-postgres:
+        condition: service_healthy
+    ports:
+      - 8282:8080
+
+  # Application Database (your original app-postgres)
+  app-postgres:
+    image: library/postgres:14
+    container_name: postgres-service
+    restart: on-failure
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    volumes:
+      - app-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    ports:
+      - 5433:5432
+
+volumes:
+  keycloak-postgres-data:
+  app-postgres-data:
