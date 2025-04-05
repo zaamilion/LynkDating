@@ -2,7 +2,7 @@ import httpx
 from fastapi import HTTPException
 import json
 
-AUTH_SERVICE_URL = "http://0.0.0.0:8000"
+AUTH_SERVICE_URL = "http://localhost:8000"
 
 
 async def verify_auth(cookie):

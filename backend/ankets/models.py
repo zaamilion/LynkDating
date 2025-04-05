@@ -43,3 +43,7 @@ class Anket(BaseModel):
     lat: float
     lon: float
     rating: int
+
+
+class MathAnketsIDS(BaseModel):
+    ids: list[int]

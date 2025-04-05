@@ -43,9 +43,11 @@ connection = KeycloakOpenIDConnection(
 keycloak_admin = KeycloakAdmin(connection=connection)
 
 
-def get_user_info(token: str) -> UserInKeycloak | None:
+async def get_user_info(token: str) -> UserInKeycloak | None:
     try:
-        userinfo = keycloak_openid.decode_token(token, keycloak_openid.public_key())
+        userinfo = await keycloak_openid.a_decode_token(
+            token, keycloak_openid.a_public_key()
+        )
         return UserInKeycloak(
             id=userinfo["sub"], username=userinfo["preferred_username"]
         )
@@ -54,9 +56,9 @@ def get_user_info(token: str) -> UserInKeycloak | None:
         return
 
 
-def refresh_token(token: str) -> Token | None:
+async def refresh_token(token: str) -> Token | None:
     try:
-        new_token = keycloak_openid.refresh_token(token)
+        new_token = keycloak_openid.a_refresh_token(token)
         return Token(
             access_token=new_token["access_token"],
             refresh_token=new_token["refresh_token"],
@@ -65,29 +67,25 @@ def refresh_token(token: str) -> Token | None:
         return
 
 
-def authenticate_user(username: str, password: str) -> UserInKeycloak | None:
+async def authenticate_user(username: str, password: str) -> UserInKeycloak | None:
     try:
-        token = keycloak_openid.token(username, password)
-        print(token)
-        userinfo = get_user_info(token["access_token"])
+        token = await keycloak_openid.a_token(username, password)
+        userinfo = await get_user_info(token["access_token"])
 
         return userinfo
     except Exception as e:
-        print(e)
         return None
 
 
-def register_user(username: str, password: str) -> bool:
-    keycloak_id = keycloak_signup(username, password)
+async def register_user(username: str, password: str) -> bool:
+    keycloak_id = await keycloak_signup(username, password)
     if not keycloak_id:
-        print(keycloak_id)
         return False
     if not db.signup(keycloak_id, username):
         return False
     return True
 
 
-# Получение текущего пользователя
 async def get_current_user(
     token: Annotated[str, Depends(oauth2_scheme)],
 ) -> UserInKeycloak:
@@ -96,15 +94,15 @@ async def get_current_user(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    userinfo = get_user_info(token)
+    userinfo = await get_user_info(token)
     if userinfo is None:
         raise credentials_exception
     return userinfo
 
 
-def keycloak_signup(username: str, password: str):
+async def keycloak_signup(username: str, password: str):
     try:
-        user_id = keycloak_admin.create_user(
+        user_id = await keycloak_admin.a_create_user(
             {
                 "username": username,
                 "enabled": True,

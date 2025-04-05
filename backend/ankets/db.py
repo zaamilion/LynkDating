@@ -137,7 +137,7 @@ class Database:
                     AND sex_find = %s
                     AND sex = %s
                 ORDER BY match_score DESC
-                LIMIT 10""",  # Semicolon removed
+                LIMIT 10""",
                 (
                     anket[2],  # age
                     anket[6],  # lat
@@ -148,7 +148,7 @@ class Database:
                     anket[4],  # sex
                 ),
             )
-            res = cur.fetchone()[0]
+            res = cur.fetchall()
             if res:
                 return res
             return None
