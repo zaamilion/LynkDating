@@ -35,3 +35,8 @@ class FriendList(BaseModel):
 
 class FriendRequestsList(BaseModel):
     requests: list
+
+
+class RequestMessage(BaseModel):
+    user_id: int
+    message: str = ":heart:"

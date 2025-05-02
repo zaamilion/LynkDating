@@ -1,19 +1,16 @@
 import httpx
 from fastapi import HTTPException
 import json
+from configs.settings import settings
 
-AUTH_SERVICE_URL = "http://localhost:8000"
+AUTH_SERVICE_URL = f"http://{settings.AUTHENTIFICATION_SERVICE_HOST}:{settings.AUTHENTIFICATION_SERVICE_PORT}"
 FRIENDS_SERVICE_URL = "http://localhost:8020"
 
 
 async def verify_auth(cookie):
     async with httpx.AsyncClient() as client:
         try:
-            print("do auth")
-            response = await client.post(
-                f"{AUTH_SERVICE_URL}/auto-verify", cookies=cookie
-            )
-            print("end auth")
+            response = await client.post(f"{AUTH_SERVICE_URL}/verify", cookies=cookie)
             response.raise_for_status()
             return response.json()
         except httpx.HTTPStatusError as e:

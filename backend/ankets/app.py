@@ -6,13 +6,13 @@ from fastapi.security import (
 )
 import utils
 from models import *
-from db import db
 from dotenv import load_dotenv
+import route
 
 load_dotenv()
 
 app = FastAPI()
-
+app.include_router(route.router)
 """
 @app.get("/get_profile")
 async def get_profile(request: Request, response: Response, user_id: int) -> Profile:
@@ -37,41 +37,6 @@ async def get_profile(request: Request, response: Response, user_id: int) -> Pro
         name=profile[0], avatar=profile[1], age=profile[2], description=profile[3]
     )
 """
-
-
-@app.post("/create_anket")
-async def create_anket(request: Request, anket: Anket) -> AnketID:
-    user_id = await utils.get_id(request.cookies)
-    print(user_id)
-    if db.get_anket_id(user_id):
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
-    if db.create_anket(
-        user_id,
-        anket.name,
-        anket.avatar,
-        anket.age,
-        anket.description,
-        anket.sex,
-        anket.sex_find,
-        anket.lat,
-        anket.lon,
-        anket.rating,
-    ):
-        print("done")
-        id = db.get_anket_id(user_id)
-        print(id)
-        return AnketID(id=id)
-    raise HTTPException(500)
-
-
-@app.post("/matchmaking")
-async def get_match(request: Request, reponse: Response, id: AnketID) -> MathAnketsIDS:
-    data = [x[0] for x in db.get_matches(id.id)]
-    if data:
-        return MathAnketsIDS(ids=data)
-    raise HTTPException(500)
-
-
 """
 @app.post("/edit_profile")
 async def cdit_profile(
