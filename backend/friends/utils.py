@@ -22,8 +22,6 @@ async def verify_auth(cookie):
 
 
 async def get_self_id(cookie) -> int:
-    if not await verify_auth(cookie):
-        raise HTTPException(status_code=401, detail="Unauthorized")
     async with httpx.AsyncClient() as client:
         try:
             response = await client.post(
@@ -40,8 +38,6 @@ async def get_self_id(cookie) -> int:
 
 
 async def send_message(cookie, user_id, message):
-    if not await verify_auth(cookie):
-        raise HTTPException(status_code=401, detail="Unauthorized")
     async with httpx.AsyncClient() as client:
         print({"user_id": user_id, "text": message})
         try:
