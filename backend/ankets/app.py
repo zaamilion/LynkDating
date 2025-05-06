@@ -4,6 +4,7 @@ from fastapi import Depends, FastAPI, HTTPException, status, Cookie, Request, Re
 from fastapi.security import (
     OAuth2PasswordRequestForm,
 )
+from fastapi.middleware.cors import CORSMiddleware
 import utils
 from models import *
 from dotenv import load_dotenv
@@ -13,6 +14,16 @@ load_dotenv()
 
 app = FastAPI()
 app.include_router(route.router)
+origins = [
+    "http://localhost:3000",  # Замени на адрес твоего фронтенда
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 """
 @app.get("/get_profile")
 async def get_profile(request: Request, response: Response, user_id: int) -> Profile:
