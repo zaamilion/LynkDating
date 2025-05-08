@@ -16,7 +16,6 @@ router = APIRouter()
 async def get_current_user(request: Request, response: Response) -> UserInKeycloak:
     token = request.cookies.get("access_token")
     if not token:
-        return JSONResponse({"detail": "Not authentificated"}, 401)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated"
         )
@@ -25,7 +24,7 @@ async def get_current_user(request: Request, response: Response) -> UserInKeyclo
         token = await refresh_token(request, response)
         userinfo = await auth.get_user_info(token.access_token)
         if userinfo is None:
-            return JSONResponse({"detail": "No credentials"}, 401)
+            raise HTTPException(401)
 
     return userinfo
 
@@ -46,10 +45,10 @@ async def get_user_id(request: Request, response: Response) -> UserID:
 async def refresh_token(request: Request, response: Response) -> Token:
     refresh_token = request.cookies.get("refresh_token")
     if not refresh_token:
-        return JSONResponse({"detail": "Not authentificated"}, 401)
+        raise HTTPException(401)
     new_token = await auth.refresh_token(refresh_token)
     if new_token is None:
-        return JSONResponse({"detail": "Not authentificated"}, 401)
+        raise HTTPException(401)
     response.set_cookie(key="access_token", value=new_token.access_token, httponly=True)
     response.set_cookie(
         key="refresh_token", value=new_token.refresh_token, httponly=True

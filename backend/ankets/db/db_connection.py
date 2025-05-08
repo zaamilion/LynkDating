@@ -31,14 +31,14 @@ class Database:
             except Exception as e:
                 print(e)
 
-    async def execute(self, query: str):
+    async def execute(self, query: str, *args):
         """Выполняет SQL запрос"""
         if not self._connection_pool:
             await self.connect()
         else:
             self.con = await self._connection_pool.acquire()
             try:
-                result = await self.con.fetch(query)
+                result = await self.con.fetch(query, *args)
                 return result
             except Exception as e:
                 raise e
@@ -50,7 +50,10 @@ class Database:
         return bool(result)
 
     async def get_anket_id(self, user_id):
-        result = await self.execute(f"SELECT id FROM ankets WHERE user_id = {user_id}")
+        result = await self.execute(
+            f"SELECT id FROM ankets WHERE user_id = $1", user_id
+        )
+        print(result)
         if result:
             return result[0]["id"]
 
@@ -58,19 +61,59 @@ class Database:
         self,
         user_id: int,
         name: str,
-        avatar=False,
+        avatar="",
         age=0,
         description="",
         sex=True,
         sex_find=True,
+        city="",
         lat=0.0,
         lon=0.0,
         rating=100,
     ) -> bool:
         result = await self.execute(
-            f"INSERT INTO ankets (user_id, name, avatar, age, sex, sex_find, description, lat, lon, rating) VALUES ({user_id}, {name}, {avatar}, {age}, {sex}, {sex_find}, {description}, {lat}, {lon}, {rating});"
+            f"INSERT INTO ankets (user_id, name, avatar, age, sex, sex_find, description, lat, lon, rating, city) VALUES ({user_id}, {name}, {avatar}, {age}, {sex}, {sex_find}, {description}, {lat}, {lon}, {rating}, {city});"
         )
         return True
+
+    async def edit_anket(
+        self,
+        anket_id: int,
+        name: str,
+        avatar="",
+        age=0,
+        description="",
+        sex=True,
+        sex_find=True,
+        city="",
+        lat=0.0,
+        lon=0.0,
+    ):
+        await self.execute(
+            """
+            UPDATE ankets 
+            SET name = $1, 
+                avatar = $2, 
+                age = $3, 
+                description = $4, 
+                sex = $5, 
+                sex_find = $6, 
+                city = $7, 
+                lat = $8, 
+                lon = $9
+            WHERE id = $10;
+        """,
+            name,
+            avatar,
+            age,
+            description,
+            sex,
+            sex_find,
+            city,
+            lat,
+            lon,
+            anket_id,
+        )
 
     async def get_anket(self, id: int):
         result = await self.execute(f"SELECT * FROM ankets WHERE id = {id};")

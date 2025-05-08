@@ -1,23 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Проверка авторизации при загрузке страницы
-    fetch('http://localhost:8000/verify', {
-        method: 'POST',
-        credentials: 'include'
-    })
-        .then(response => {
-            if (response.status === 401) {
-                window.location.href = '/';
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка сети:', error);
-        });
     fetch('http://localhost:8080/get_my_anket', {
         method: 'GET',
         credentials: 'include' // если используешь куки для авторизации
     })
         .then(response => {
-            if (!response.ok) {
+            if (response.status === 404) {
+                window.location.href = '/create_anket';
+            }
+            else if (response.status === 401) {
+                window.location.href = '/'
+            }
+            else if (!response.ok) {
                 throw new Error('Ошибка загрузки профиля');
             }
             return response.json();
@@ -28,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('profile-city').textContent = profile.city || 'Не указано';
             document.getElementById('profile-sex').textContent = profile.sex === true ? 'Мужской' : 'Женский';
             document.getElementById('profile-about').textContent = profile.description || 'Не указано';
+            document.getElementById('avatar-preview').src = profile.avatar;
         })
         .catch(err => {
             console.error(err);

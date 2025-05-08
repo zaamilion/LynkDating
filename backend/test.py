@@ -15,13 +15,12 @@ async def main(filename):
             raise e
     tasks = []
     async with httpx.AsyncClient() as client:
-        answer = await client.post(
-            f"http://localhost:8080/upload",
+        answer = await client.get(
+            f"http://localhost:3000/me",
             cookies=cookie,
-            files={"file": open(filename, "rb")},
         )
         answer.raise_for_status()
-        return answer.json()
+        return answer.text
 
 
 import asyncio

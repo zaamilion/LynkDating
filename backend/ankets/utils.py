@@ -22,8 +22,6 @@ async def verify_auth(cookie):
 
 
 async def get_id(cookie) -> int:
-    if not await verify_auth(cookie):
-        raise HTTPException(status_code=401, detail="Unauthorized")
     async with httpx.AsyncClient() as client:
         try:
             print("do reqeust")
@@ -42,8 +40,6 @@ async def get_id(cookie) -> int:
 
 
 async def get_friends_list(cookie) -> int:
-    if not await verify_auth(cookie):
-        raise HTTPException(status_code=401, detail="Unauthorized")
     async with httpx.AsyncClient() as client:
         try:
             response = await client.get(

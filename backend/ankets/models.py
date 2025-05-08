@@ -35,14 +35,27 @@ class AnketID(BaseModel):
 
 class Anket(BaseModel):
     name: str
-    avatar: bool
+    avatar: str
     age: int
     sex: bool
     sex_find: bool
     description: str
+    city: str
     lat: float
     lon: float
     rating: int
+
+
+class AnketUpdate(BaseModel):
+    name: str
+    avatar: str
+    age: int
+    sex: bool
+    sex_find: bool
+    description: str
+    city: str
+    lat: float
+    lon: float
 
 
 class MathAnketsIDS(BaseModel):
