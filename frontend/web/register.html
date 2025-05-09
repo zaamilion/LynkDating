@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 80px;
+            font-size: 18px;
+        }
+        .form-container {
+            border: 5px solid #ccc;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #af4f4c;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            margin: 10px 0;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Регистрация</h1>
+        <form method="POST" action="/register">
+            <input type="text" name="username" placeholder="Логин" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            <button type="submit" class="btn">Зарегистрироваться</button>
+        </form>
+    </div>
+</body>
+</html>

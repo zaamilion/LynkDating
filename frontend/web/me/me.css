@@ -1,0 +1,51 @@
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 80px;
+        font-size: 18px;
+    }
+
+    .profile-card {
+        border: 5px solid #ccc;
+        padding: 30px;
+        border-radius: 15px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        background: #af4f4c;
+        color: white;
+        text-decoration: none;
+        border-radius: 15px;
+        margin: 10px 0;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .profile-info {
+        margin: 15px 0;
+    }
+
+    .profile-info span {
+        font-weight: bold;
+    }
+
+    .avatar-upload {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .avatar-label {
+        display: inline-block;
+        position: relative;
+    }
+
+    .avatar-image {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+    }

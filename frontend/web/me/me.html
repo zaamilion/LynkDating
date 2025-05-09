@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Я</title>
+    <link rel="stylesheet" href="me.css">
+    <script src="me.js" defer></script>
+</head>
+
+<body>
+    <div class="profile-card">
+        <!-- Фото профиля -->
+        <h1>Мой профиль</h1>
+
+        <div class="avatar-upload">
+            <label for="avatar" class="avatar-label">
+                <img id="avatar-preview" src="" alt="Аватар" class="avatar-image">
+            </label>
+        </div>
+
+        <div class="profile-info">
+            <span>Имя:</span> <span id="profile-name">Загрузка...</span>
+        </div>
+
+        <div class="profile-info">
+            <span>Возраст:</span> <span id="profile-age">Загрузка...</span>
+        </div>
+
+        <div class="profile-info">
+            <span>Город:</span> <span id="profile-city">Загрузка...</span>
+        </div>
+
+        <div class="profile-info">
+            <span>Пол:</span> <span id="profile-sex">Загрузка...</span>
+        </div>
+
+        <div class="profile-info">
+            <span>О себе:</span> <span id="profile-about">Загрузка...</span>
+        </div>
+
+        <a href="/edit" class="btn">Редактировать профиль</a>
+        <form id="logoutForm">
+            <button type="submit" class="btn">Выйти</button>
+        </form>
+    </div>
+</body>
+
+</html>
