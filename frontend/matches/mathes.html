@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ваши мэтчи</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 30px;
+            color: #c8ceda;
+        }
+
+        .matches-container {
+            max-width: 650px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+        }
+
+        .matches-container h1 {
+            color: #d81717;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        /* Список мэтчей */
+        .matches-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Карточка мэтча */
+        .match-item {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            border-radius: 16px;
+            background-color: #fff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .match-item:hover {
+            background-color: #f8fafc;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-color: #cbd5e0;
+        }
+
+        /* Аватарка */
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin-right: 25px;
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #c21e18;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            display: block;
+        }
+
+        /* Текстовая информация */
+        .text-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .username {
+            font-weight: 700;
+            font-size: 20px;
+            color: #1e293b;
+        }
+
+        .user-details {
+            font-size: 16px;
+            color: #64748b;
+            letter-spacing: 0.5px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 640px) {
+            body {
+                padding: 20px;
+            }
+            
+            .matches-container {
+                padding: 25px;
+            }
+            
+            .matches-list {
+                gap: 30px;
+            }
+            
+            .avatar-container {
+                width: 70px;
+                height: 70px;
+                margin-right: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .matches-list {
+                gap: 25px;
+            }
+            
+            .avatar-container {
+                width: 60px;
+                height: 60px;
+                margin-right: 18px;
+            }
+            
+            .username {
+                font-size: 18px;
+            }
+            
+            .user-details {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matches-container">
+        <h1>Взаимно понравились:</h1>
+        
+        <div class="matches-list" id="matchesList">
+            <!-- Мэтчи будут добавлены через JS -->
+        </div>
+    </div>
+
+    <script>
+        const matches = [
+            {
+                username: "johndoe",
+                age: 25,
+                city: "Москва",
+                avatar: "https://randomuser.me/api/portraits/men/1.jpg"
+            },
+            {
+                username: "annasmith",
+                age: 23,
+                city: "Санкт-Петербург",
+                avatar: "https://randomuser.me/api/portraits/women/1.jpg"
+            }
+        ];
+
+        function renderMatches() {
+            const container = document.getElementById('matchesList');
+            
+            matches.forEach(user => {
+                const matchHTML = `
+                    <div class="match-item">
+                        <div class="avatar-container">
+                            <img src="${user.avatar}" class="user-avatar" alt="${user.username}">
+                        </div>
+                        <div class="text-container">
+                            <span class="username">${user.username}</span>
+                            <span class="user-details">${user.age} лет, ${user.city}</span>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', matchHTML);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderMatches);
+    </script>
+</body>
+</html>
