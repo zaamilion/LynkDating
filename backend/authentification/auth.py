@@ -41,6 +41,7 @@ async def get_user_info(token: str) -> UserInKeycloak | None:
             id=userinfo["sub"], username=userinfo["preferred_username"]
         )
     except Exception as e:
+        print(e)
         return
 
 
@@ -57,11 +58,15 @@ async def refresh_token(token: str) -> Token | None:
 
 async def authenticate_user(username: str, password: str) -> UserInKeycloak | None:
     try:
-        token = await keycloak_openid.a_token(username, password)
+        token = await keycloak_openid.a_token(
+            username,
+            password,
+        )
         userinfo = await get_user_info(token["access_token"])
 
         return userinfo
     except Exception as e:
+        print(e)
         return None
 
 
@@ -70,6 +75,7 @@ async def register_user(username: str, password: str) -> bool:
     if not keycloak_id:
         return False
     if not await database_instance.add_user(keycloak_id, username):
+
         return False
     return True
 

@@ -43,7 +43,7 @@ class Anket(BaseModel):
     city: str
     lat: float
     lon: float
-    rating: int
+    telegram: str
 
 
 class AnketUpdate(BaseModel):
@@ -56,7 +56,19 @@ class AnketUpdate(BaseModel):
     city: str
     lat: float
     lon: float
+    telegram: str
 
 
 class MathAnketsIDS(BaseModel):
     ids: list[int]
+
+
+class MatchmateAnket(BaseModel):
+    id: int
+    user_id: int
+    name: str
+    avatar: str
+    age: int
+    sex: bool
+    description: str
+    city: str

@@ -32,19 +32,17 @@ class Database:
             except Exception as e:
                 print(e)
 
-    async def execute(self, query: str):
+    async def execute(self, query: str, *args):
         """Выполняет SQL запрос"""
         if not self._connection_pool:
             await self.connect()
 
-        # ВСЕГДА берём соединение из пула
         self.con = await self._connection_pool.acquire()
         try:
-            result = await self.con.fetch(query)
+            result = await self.con.fetch(query, *args)
             return result
         except Exception as e:
-            print("Ошибка выполнения запроса:", e)
-            return None
+            print(e)
         finally:
             await self._connection_pool.release(self.con)
 
@@ -54,15 +52,17 @@ class Database:
 
     async def get_friends_list(self, user_id: int) -> list:
         query = """
-        SELECT FRIEND_1 AS friend_id
-        FROM friends
-        WHERE FRIEND_2 = {user_id}
+        SELECT id, FRIEND_1 AS friend_id
+    FROM friends
+    WHERE FRIEND_2 = {user_id}
 
-        UNION ALL
+    UNION ALL
 
-        SELECT FRIEND_2 AS friend_id
-        FROM friends
-        WHERE FRIEND_1 = {user_id};
+    SELECT id, FRIEND_2 AS friend_id
+    FROM friends
+    WHERE FRIEND_1 = {user_id}
+
+    ORDER BY id DESC;
     """.format(
             user_id=user_id
         )
@@ -143,36 +143,31 @@ class Database:
     async def accept_friend_request(self, sender_id: int, user_id: int) -> bool:
         """Принимает заявку в друзья."""
         try:
-            async with self._connection_pool.acquire() as conn:
-                async with conn.transaction():
-                    # Удаляем заявку
-                    delete_query = """
-                        DELETE FROM friends_requests
-                        WHERE USER_ID = {user_id} AND SENDER_ID = {sender_id};
-                    """.format(
-                        user_id=user_id, sender_id=sender_id
-                    )
-                    delete_result = await self.execute(delete_query)
-
-                    # Если ничего не удалено, заявка не существует
-                    if not delete_result:
-                        raise HTTPException(
-                            status_code=409, detail="Request doesn't exist"
-                        )
-
-                    # Добавляем в друзья
-                    insert_query = """
-                        INSERT INTO friends (FRIEND_1, FRIEND_2)
-                        VALUES ({sender_id}, {user_id});
-                    """.format(
-                        sender_id=sender_id, user_id=user_id
-                    )
-                    await self.execute(insert_query)
+            delete_query = """
+                DELETE FROM friends_requests
+                WHERE USER_ID = {user_id} AND SENDER_ID = {sender_id};
+            """.format(
+                user_id=user_id, sender_id=sender_id
+            )
+            print(delete_query)
+            delete_result = await self.execute(delete_query)
+            print(delete_result)
+            # Добавляем в друзья
+            insert_query = """
+                INSERT INTO friends (FRIEND_1, FRIEND_2)
+                VALUES ({sender_id}, {user_id});
+            """.format(
+                sender_id=sender_id, user_id=user_id
+            )
+            print(insert_query)
+            await self.execute(insert_query)
             return True
 
         except HTTPException as e:
+            print(e)
             raise e
         except Exception as e:
+            print(e)
             return False
 
     async def decline_friend_request(self, sender_id: int, user_id: int) -> bool:
@@ -186,10 +181,6 @@ class Database:
                 user_id=user_id, sender_id=sender_id
             )
             result = await self.execute(query)
-
-            # Если ничего не удалено, заявка не существует
-            if not result:
-                raise HTTPException(status_code=409, detail="Request doesn't exist")
             return True
 
         except HTTPException as e:
@@ -219,3 +210,28 @@ class Database:
             raise e
         except Exception as e:
             return False
+
+    async def get_follower(self, user_id):
+        query = """SELECT 
+    a.user_id,
+    a.id,
+    a.name,
+    a.avatar,
+    a.age,
+    a.sex,
+    a.description,
+    a.city
+FROM friends_requests fr
+JOIN ankets a ON fr.sender_id = a.user_id
+WHERE fr.user_id = $1
+ORDER BY RANDOM()
+LIMIT 1;"""
+        result = await self.execute(query, user_id)
+        if result:
+            return result[0]
+
+    async def get_match_anket(self, user_id):
+        query = """SELECT id, name, age, city, avatar, telegram FROM ankets WHERE user_id=$1;"""
+        result = await self.execute(query, user_id)
+        if result:
+            return result[0]

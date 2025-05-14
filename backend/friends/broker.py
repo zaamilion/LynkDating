@@ -5,8 +5,8 @@ import redis.asyncio as redis
 import utils
 
 # Запуск Kafka Producer
-r = redis.Redis(host="localhost", port=6379, db=0)
-kafka_producer = AIOKafkaProducer(bootstrap_servers="localhost:9092")
+r = redis.Redis(host="redis", port=6379, db=0)
+kafka_producer = AIOKafkaProducer(bootstrap_servers="kafka:29092")
 
 
 async def is_processed(key: bytes) -> bool:
@@ -17,60 +17,49 @@ async def flag_as_processed(key: bytes):
     return await r.set(key, b"1", ex=3600)
 
 
-async def check_access_to_send(cookie, user_id, current_user_id):
-    friends_list = await utils.get_friends_list(cookie)
-    requests_list = await utils.get_friends_requests_receiver_list(cookie)
-
-    chat = await database_instance.get_chat_id(current_user_id, user_id)
-    print("25 chat ", chat)
-    if (
-        (user_id not in friends_list)
-        and (user_id not in requests_list)
-        and (chat is not None)
-    ):
-        return False
-    if not chat:
-        await database_instance.create_chat(current_user_id, user_id)
-    return True
+async def check_access_to_send(user_id, current_user_id):
+    friends_list = await database_instance.get_friends_list(current_user_id)
+    if user_id not in friends_list:
+        return True
+    return False
 
 
 async def start_kafka_consumer():
     global kafka_producer
 
     consumer = AIOKafkaConsumer(
-        "chat",
-        bootstrap_servers="localhost:9092",
+        "friends",
+        bootstrap_servers="kafka:29092",
         auto_offset_reset="earliest",
         enable_auto_commit=False,
     )
     await consumer.start()
+    print("consumer started")
     try:
         async for msg in consumer:
             try:
                 key = msg.value.decode("utf-8") + str(msg.timestamp)
                 if await is_processed(key):
                     continue
-
                 data = json.loads(msg.value.decode())
-                data["cookie"] = data.get("cookie", {})
-                if not await check_access_to_send(
-                    data["cookie"], data["user_id"], data["sender_id"]
-                ):
+                if not await check_access_to_send(data["user_id"], data["sender_id"]):
                     continue
-                chat_id = await database_instance.get_chat_id(
-                    data["sender_id"], data["user_id"]
-                )
-                if not chat_id:
-                    continue
-                chat_id = (chat_id[0])["chat_id"]
-                chat = json.loads(
-                    (await database_instance.get_chat(chat_id))[0]["chat"]
-                )
-                chat.append({"id": data["sender_id"], "text": data["text"]})
                 await flag_as_processed(key)
-                res = await database_instance.upload_chat(chat_id, chat)
+                friends_requests = (
+                    await database_instance.get_friend_sender_requests_list(
+                        data["user_id"]
+                    )
+                )
+                if data["sender_id"] in friends_requests:
+                    await database_instance.accept_friend_request(
+                        data["user_id"], data["sender_id"]
+                    )
+                else:
+                    await database_instance.send_friend_request(
+                        data["sender_id"], data["user_id"]
+                    )
             except Exception as e:
-                raise e
+                continue
     finally:
         await consumer.stop()
         print("consumer stopped ")

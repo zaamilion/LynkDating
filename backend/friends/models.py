@@ -40,3 +40,22 @@ class FriendRequestsList(BaseModel):
 class RequestMessage(BaseModel):
     user_id: int
     message: str = ":heart:"
+
+
+class LikeRequest(BaseModel):
+    user_id: int
+
+
+class FollowerAnket(BaseModel):
+    id: int
+    user_id: int
+    name: str
+    avatar: str
+    age: int
+    sex: bool
+    description: str
+    city: str
+
+
+class FollowerID(BaseModel):
+    user_id: int

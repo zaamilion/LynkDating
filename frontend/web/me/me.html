@@ -4,10 +4,17 @@
 <head>
     <title>Я</title>
     <link rel="stylesheet" href="me.css">
+    <meta name="viewport" content="width=device-width, initial-scale=0.85">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <script src="me.js" defer></script>
 </head>
 
 <body>
+    <img src="/static/logo.png" alt="Логотип" class="logo">
     <div class="profile-card">
         <!-- Фото профиля -->
         <h1>Мой профиль</h1>
@@ -19,23 +26,26 @@
         </div>
 
         <div class="profile-info">
-            <span>Имя:</span> <span id="profile-name">Загрузка...</span>
+            <span>Имя:</span> <span id="profile-name"> </span>
         </div>
 
         <div class="profile-info">
-            <span>Возраст:</span> <span id="profile-age">Загрузка...</span>
+            <span>Возраст:</span> <span id="profile-age"> </span>
         </div>
 
         <div class="profile-info">
-            <span>Город:</span> <span id="profile-city">Загрузка...</span>
+            <span>Город:</span> <span id="profile-city"> </span>
         </div>
 
         <div class="profile-info">
-            <span>Пол:</span> <span id="profile-sex">Загрузка...</span>
+            <span>Пол:</span> <span id="profile-sex"> </span>
         </div>
 
         <div class="profile-info">
-            <span>О себе:</span> <span id="profile-about">Загрузка...</span>
+            <span>О себе:</span> <span id="profile-about"> </span>
+        </div>
+        <div class="profile-tg">
+            <span>Telegram:</span> <span id="profile-tg"> </span>
         </div>
 
         <a href="/edit" class="btn">Редактировать профиль</a>
@@ -43,6 +53,25 @@
             <button type="submit" class="btn">Выйти</button>
         </form>
     </div>
+    <nav class="bottom-nav">
+        <a href="/ankets" class="nav-item">
+            <span class="nav-icon">📋</span>
+            <span class="nav-label">Анкеты</span>
+        </a>
+        <a href="/followers" class="nav-item">
+            <span class="nav-icon">👥</span>
+            <span class="nav-label">Фолловеры</span>
+        </a>
+        <a href="/matches" class="nav-item ">
+            <span class="nav-icon">❤️</span>
+            <span class="nav-label">Матчи</span>
+        </a>
+        <a href="/me" class="nav-item active">
+            <span class="nav-icon">🧑</span>
+            <span class="nav-label">Я</span>
+        </a>
+    </nav>
+
 </body>
 
 </html>

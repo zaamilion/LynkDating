@@ -1,27 +1,60 @@
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Montserrat', sans-serif;
         max-width: 500px;
         margin: 0 auto;
         padding: 80px;
         font-size: 18px;
+        background-image: url('/static/layout.png');
+        /* Укажи свой URL */
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
     }
 
     .profile-card {
-        border: 5px solid #ccc;
+        background-color: #fbf2e9;
+        border: 5px solid #ffebeb;
         padding: 30px;
         border-radius: 15px;
+        box-sizing: border-box;
+        background: white;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.5s;
+    }
+
+    .profile:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Сброс дефолтных стилей для <button> */
+    button {
+        border: none;
+        /* Убираем границу */
+        outline: none;
+        /* Убираем выделение при фокусе */
+        box-shadow: none;
+        /* Убираем тень */
     }
 
     .btn {
+
         display: inline-block;
         padding: 12px 24px;
-        background: #af4f4c;
+        background: #f64781;
         color: white;
         text-decoration: none;
         border-radius: 15px;
         margin: 10px 0;
         font-size: 16px;
         cursor: pointer;
+        transition: all 0.5s ease;
+    }
+
+    .btn:hover {
+        background: #e91e63;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .profile-info {
@@ -32,14 +65,24 @@
         font-weight: bold;
     }
 
+    .profile-tg {
+        margin: 15px 0;
+    }
+
+    .profile-tg span {
+        font-weight: bold;
+    }
+
+
+
     .avatar-upload {
         margin-bottom: 20px;
-        text-align: center;
+        text-align: left;
+        align-content: start;
     }
 
     .avatar-label {
         display: inline-block;
-        position: relative;
     }
 
     .avatar-image {
@@ -48,4 +91,94 @@
         object-fit: cover;
         border-radius: 50%;
         border: 2px solid #ccc;
+    }
+
+    /* Стиль нижнего меню */
+    .bottom-nav {
+        background-color: #fbf2e9;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 65px;
+        background-color: #fff;
+        box-shadow: 0 -1px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        font-family: sans-serif;
+        transition: background-color 0.3s ease;
+    }
+
+    .nav-item {
+        flex-grow: 1;
+        text-align: center;
+        text-decoration: none;
+        color: #555;
+        font-size: 14px;
+        padding-top: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: color 0.3s ease;
+    }
+
+    .nav-icon {
+        font-size: 20px;
+        margin-bottom: 2px;
+        transition: transform 0.3s ease;
+    }
+
+    .nav-item:hover .nav-icon,
+    .nav-item.active .nav-icon {
+        transform: scale(1.2);
+        color: #e91e63;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+        color: #e91e63;
+    }
+
+    /* Активный индикатор */
+    .nav-item.active::after {
+        content: "";
+        display: block;
+        width: 30%;
+        height: 3px;
+        background-color: #e91e63;
+        border-radius: 2px;
+        margin-top: 4px;
+        animation: slideIn 0.3s ease forwards;
+    }
+
+    @keyframes slideIn {
+        from {
+            width: 0;
+        }
+
+        to {
+            width: 30%;
+        }
+    }
+
+    .logo {
+        position: fixed;
+        /* чтобы логотип всегда был в углу */
+        top: 10px;
+        left: 10px;
+        width: 10vw;
+        /* 15% ширины экрана */
+        min-width: 100px;
+        /* подстрой под свой размер */
+        z-index: 1000;
+        /* поверх других элементов */
+        border: none !important;
+        background: none !important;
+        padding: 0;
+        margin: 0;
+        object-fit: contain;
+        image-rendering: auto;
+        /* не делать пиксельным, если увеличиваем */
     }
