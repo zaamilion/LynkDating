@@ -1,21 +1,37 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     max-width: 500px;
     margin: 0 auto;
     padding: 80px;
     font-size: 18px;
+    background-image: url('/static/layout3.png');
+    /* Укажи свой URL */
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 .form-container {
-    border: 5px solid #ccc;
-    padding: 30px;
-    border-radius: 15px;
+    border: 2px solid #ffebeb;
+    padding: 40px 30px;
+    border-radius: 16px;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fbf2e9;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .btn {
     display: inline-block;
     padding: 12px 24px;
-    background: #af4f4c;
+    background: #f64781;
     color: white;
     border: none;
     border-radius: 15px;
@@ -23,6 +39,14 @@ body {
     font-size: 16px;
     cursor: pointer;
     width: 100%;
+    transition: all 0.3s ease;
+}
+
+
+.btn:hover {
+    background: #e91e63;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 input {
@@ -30,4 +54,5 @@ input {
     margin: 10px 0;
     width: 100%;
     box-sizing: border-box;
+    border-radius: 15px;
 }

@@ -1,34 +1,37 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     max-width: 500px;
     margin: 0 auto;
     padding: 40px 20px;
     font-size: 18px;
-    background-color: #f8f9fa;
-    color: #333;
+    background-image: url('/static/layout3.png');
+    /* Укажи свой URL */
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 .profile {
-    border: 2px solid #ccc;
+    border: 2px solid #ffebeb;
     padding: 40px 30px;
     border-radius: 16px;
     text-align: left;
     width: 100%;
     box-sizing: border-box;
-    background: white;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    background: #fbf2e9;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .profile:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .btn {
     display: inline-block;
     padding: 14px 24px;
-    background: #af4f4c;
+    background: #f64781;
     color: white;
     text-decoration: none;
     border-radius: 12px;
@@ -45,7 +48,7 @@ body {
 }
 
 .btn:hover {
-    background: #9a4542;
+    background: #e91e63;
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -83,4 +86,24 @@ body {
     height: 1px;
     background: linear-gradient(to right, transparent, #ddd, transparent);
     margin: 30px 0;
+}
+
+.logo {
+    position: fixed;
+    /* чтобы логотип всегда был в углу */
+    top: 10px;
+    left: 10px;
+    width: 10vw;
+    /* 15% ширины экрана */
+    min-width: 100px;
+    /* подстрой под свой размер */
+    z-index: 1000;
+    /* поверх других элементов */
+    border: none !important;
+    background: none !important;
+    padding: 0;
+    margin: 0;
+    object-fit: contain;
+    image-rendering: auto;
+    /* не делать пиксельным, если увеличиваем */
 }

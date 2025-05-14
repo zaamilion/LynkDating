@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('http://localhost:8080/get_my_anket', {
+    fetch('http://localhost:8020/get_my_anket', {
         method: 'GET',
         credentials: 'include' // если используешь куки для авторизации
     })
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('profile-city').textContent = profile.city || 'Не указано';
             document.getElementById('profile-sex').textContent = profile.sex === true ? 'Мужской' : 'Женский';
             document.getElementById('profile-about').textContent = profile.description || 'Не указано';
+            document.getElementById('profile-tg').textContent = profile.telegram || '';
             document.getElementById('avatar-preview').src = profile.avatar;
         })
         .catch(err => {

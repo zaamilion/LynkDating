@@ -1,5 +1,0 @@
-services:
-  frontend:
-    build: ./web
-    ports:
-      - "3000:80"
