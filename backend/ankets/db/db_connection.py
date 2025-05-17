@@ -210,3 +210,8 @@ LIMIT 1;
             await self.execute(insert_seen)
 
         return result
+
+    async def get_anket_by_tg_id(self, tg_id: str, current_user_id: int):
+        query = """SELECT * FROM ankets WHERE telegram = $1 AND user_id != $2"""
+        result = await self.execute(query, tg_id, current_user_id)
+        return result

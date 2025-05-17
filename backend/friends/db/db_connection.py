@@ -235,3 +235,15 @@ LIMIT 1;"""
         result = await self.execute(query, user_id)
         if result:
             return result[0]
+
+    async def get_telegram_id(self, user_id):
+        query = """SELECT telegram FROM ankets WHERE user_id=$1;"""
+        result = await self.execute(query, user_id)
+        if result:
+            return result[0]["telegram"]
+
+    async def get_user_name(self, user_id):
+        query = """SELECT name FROM ankets WHERE user_id=$1;"""
+        result = await self.execute(query, user_id)
+        if result:
+            return result[0]["name"]

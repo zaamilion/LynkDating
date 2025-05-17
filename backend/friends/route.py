@@ -6,6 +6,7 @@ from models import *
 from db.db_session import database_instance
 import broker
 import json
+from broker import kafka_producer
 
 router = APIRouter()
 
@@ -81,6 +82,17 @@ async def accept_friend_request(request: Request, follower_id: FollowerID) -> di
         follower_id.user_id, current_user_id
     )
     if result:
+        user_tg_id = await database_instance.get_telegram_id(current_user_id)
+        user_name = await database_instance.get_user_name(current_user_id)
+        match_tg_id = await database_instance.get_telegram_id(follower_id.user_id)
+        match_user_name = await database_instance.get_user_name(follower_id.user_id)
+        data = {
+            "user_id": user_tg_id,
+            "match_user_id": match_tg_id,
+            "user_name": user_name,
+            "match_user_name": match_user_name,
+        }
+        await kafka_producer.send("matches", json.dumps(data).encode())
         return {"message": "Succesfully accepted"}
     else:
         raise HTTPException(
