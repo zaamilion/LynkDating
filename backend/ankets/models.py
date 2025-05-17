@@ -72,3 +72,11 @@ class MatchmateAnket(BaseModel):
     sex: bool
     description: str
     city: str
+
+
+class VerificationCode(BaseModel):
+    code: str
+
+
+class TelegramID(BaseModel):
+    id: str

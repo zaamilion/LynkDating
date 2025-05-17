@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('profile-city').textContent = profile.city || 'Не указано';
             document.getElementById('profile-sex').textContent = profile.sex === true ? 'Мужской' : 'Женский';
             document.getElementById('profile-about').textContent = profile.description || 'Не указано';
-            document.getElementById('profile-tg').textContent = profile.telegram || '';
             document.getElementById('avatar-preview').src = profile.avatar;
         })
         .catch(err => {

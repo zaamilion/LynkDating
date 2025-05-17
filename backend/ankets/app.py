@@ -9,6 +9,7 @@ import utils
 from models import *
 from dotenv import load_dotenv
 import route
+import broker
 
 load_dotenv()
 
@@ -65,3 +66,8 @@ async def cdit_profile(
 
         return ProfileID(id=db.get_profile_id(user_id))
 """
+
+
+@app.on_event("startup")
+async def startup():
+    await broker.kafka_producer.start()

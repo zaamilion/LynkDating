@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from models import *
 import utils
 from db.db_session import database_instance
+from broker import get_tg_by_code
 
 router = APIRouter()
 
@@ -118,3 +119,17 @@ async def matchmate_anket(request: Request) -> MatchmateAnket:
         description=anket["description"],
         city=anket["city"],
     )
+
+
+@router.post("/verificate_telegram")
+async def telegram_verification(request: Request, code: VerificationCode):
+    current_user_id = await utils.get_id(request.cookies)
+    code = code.code
+    telegram_id = await get_tg_by_code(code)
+
+    if not telegram_id:
+        raise HTTPException(400)
+    conflicts = await database_instance.get_anket_by_tg_id(telegram_id, current_user_id)
+    if conflicts:
+        raise HTTPException(409)
+    return TelegramID(id=telegram_id)

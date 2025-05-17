@@ -51,9 +51,31 @@ async def start_kafka_consumer():
                     )
                 )
                 if data["sender_id"] in friends_requests:
-                    await database_instance.accept_friend_request(
+                    result = await database_instance.accept_friend_request(
                         data["user_id"], data["sender_id"]
                     )
+                    current_user_id = data["user_id"]
+                    follower_id = data["sender_id"]
+                    if result:
+                        user_tg_id = await database_instance.get_telegram_id(
+                            current_user_id
+                        )
+                        user_name = await database_instance.get_user_name(
+                            current_user_id
+                        )
+                        match_tg_id = await database_instance.get_telegram_id(
+                            follower_id
+                        )
+                        match_user_name = await database_instance.get_user_name(
+                            follower_id
+                        )
+                        data = {
+                            "user_id": user_tg_id,
+                            "match_user_id": match_tg_id,
+                            "user_name": user_name,
+                            "match_user_name": match_user_name,
+                        }
+                        await kafka_producer.send("matches", json.dumps(data).encode())
                 else:
                     await database_instance.send_friend_request(
                         data["sender_id"], data["user_id"]
