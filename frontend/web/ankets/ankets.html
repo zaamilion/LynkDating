@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Анкеты</title>
+    <link rel="stylesheet" href="ankets.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=0.85">
+    <script src="ankets.js" defer></script>
+</head>
+
+<body>
+    <img src="/static/logo.png" alt="Логотип" class="logo">
+    <div class="profile-card">
+        <!-- Фото профиля -->
+        <div class="avatar">
+            <label for="avatar" class="avatar-label">
+                <img id="avatar-preview" src="https://lynkdating.s3.cloud.ru/default-avatar.png" alt="Аватар"
+                    class="avatar-image">
+            </label>
+        </div>
+        <input type="hidden" id="user_id" name="user_id">
+        <div class="profile-name">
+            <span></span><span id="profile-name"> </span>
+        </div>
+
+        <div class="profile-info">
+            <span>Возраст:</span> <span id="profile-age"> </span>
+        </div>
+
+        <div class="profile-info">
+            <span>Город:</span> <span id="profile-city"> </span>
+        </div>
+
+        <div class="profile-info">
+            <span>Пол:</span> <span id="profile-sex"> </span>
+        </div>
+
+        <div class="profile-info">
+            <span>О себе:</span> <span id="profile-about"> </span>
+        </div>
+        <div class="action-buttons-bottom">
+            <button class="like-button" id="like-button">❤️</button>
+            <button class="dislike-button" id="dislike-button">❌</button>
+        </div>
+    </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="/ankets" class="nav-item active">
+            <span class="nav-icon">📋</span>
+            <span class="nav-label">Анкеты</span>
+        </a>
+        <a href="/followers" class="nav-item">
+            <span class="nav-icon">👥</span>
+            <span class="nav-label">Фолловеры</span>
+        </a>
+        <a href="/matches" class="nav-item">
+            <span class="nav-icon">❤️</span>
+            <span class="nav-label">Мэтчи</span>
+        </a>
+        <a href="/me" class="nav-item">
+            <span class="nav-icon">🧑</span>
+            <span class="nav-label">Я</span>
+        </a>
+    </nav>
+</body>
+
+</html>

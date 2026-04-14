@@ -1,0 +1,277 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 80px;
+    font-size: 18px;
+    background-image: url('/static/layout3.png');
+    /* Укажи свой URL */
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+
+.form-container {
+    border: 2px solid #ffebeb;
+    padding: 40px 30px;
+    border-radius: 16px;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fbf2e9;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.form-container:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #f64781;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    margin: 10px 0;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+
+.btn:hover {
+    background: #e91e63;
+}
+
+input,
+textarea {
+    padding: 12px 15px;
+    margin: 10px 0;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #fbf2e9;
+    border-radius: 15px;
+    font-size: 16px;
+    transition: border 0.25s;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #e91e63;
+    outline: none;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.radio-group {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    accent-color: #e91e63;
+}
+
+.radio-option input {
+    width: auto;
+    margin-right: 8px;
+}
+
+.radio-label {
+    font-size: 16px;
+}
+
+.suggestions {
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    background: white;
+    position: absolute;
+    width: 300px;
+    z-index: 1000;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.file-avatar {
+    display: none;
+}
+
+.avatar-upload {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.avatar-label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+}
+
+.avatar-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+.avatar-image:hover {
+    border-color: #888;
+}
+
+.change-text {
+    display: block;
+    margin-top: 10px;
+    color: #e91e63;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Стиль для статуса Telegram */
+.profile-section {
+    margin-bottom: 5px;
+}
+
+.tg-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.confirmed {
+    background-color: #f0fff0;
+    border: 1px solid #d4edda;
+    color: #155724;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.change-btn {
+    cursor: pointer;
+    color: #888;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    margin-left: auto;
+}
+
+/* Отдельная розовая форма */
+.code-form {
+    margin-top: 0px;
+    border: 2px solid #ffebeb;
+    padding: 30px 20px;
+    border-radius: 16px;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff0f6;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.code-form:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.code-form h3 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #e91e63;
+}
+
+.code-form p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.code-form input#code {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 1px solid #ffebeb;
+    margin: 0;
+    transition: border 0.3s ease;
+}
+
+.code-form input#code:focus {
+    border-color: #e91e63;
+    outline: none;
+    background-color: #fff;
+}
+
+.bot-link {
+    font-size: 14px;
+    color: #e91e63;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    margin-bottom: 0px;
+}
+
+.bot-link:hover {
+    color: #c2185b;
+    text-decoration: underline;
+}
+
+.verify-btn {
+    background-color: #f64781;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin: 0;
+}
+
+.verify-btn:hover {
+    background-color: #e91e63;
+}
+
+.status-message {
+    margin: 5px 0 5px 0;
+    font-size: 14px;
+    min-height: 20px;
+    color: green;
+}
