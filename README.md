@@ -20,9 +20,4 @@
 Проект является выпускной работой Яндекс Лицея 
 Был реализован и защищён в мае 2025 
 
-Функционал сервиса:
-
-<video width="600" controls>
-<source src="assets/promo.mp4" type="video/mp4">
-Your browser does not support the video tag.
-</video>
+Функционал сервиса показан в видео `assets/promo.mp4`
