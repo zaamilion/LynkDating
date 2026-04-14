@@ -22,4 +22,4 @@
 
 Функционал сервиса:
 
-<video src="assets/promo.mp4"></video>
+<video src="compressed_final_promo.mp4"></video>
