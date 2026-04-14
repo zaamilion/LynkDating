@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Создание профиля</title>
+    <link rel="stylesheet" href="create_anket.css">
+    <meta name="viewport" content="width=device-width, initial-scale=0.85">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=8013b162-6b42-4997-9691-77b7074026e0"
+        type="text/javascript"></script>
+    <script src="create_anket.js" defer></script>
+
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h1>Создание профиля</h1>
+        <form id="profileForm">
+
+
+            <div class="avatar-upload">
+                <label for="avatar" class="avatar-label">
+                    <img id="avatar-preview" src="https://lynkdating.s3.cloud.ru/default-avatar.png" alt="Аватар"
+                        class="avatar-image">
+                    <span class="change-text">Выберите аватар</span>
+                </label>
+                <input type="file" id="avatar" class=" file-avatar" name="avatar" accept="image/*"
+                    style="display: none;">
+            </div>
+
+            <!-- Скрытое поле для хранения URL аватара после загрузки -->
+            <input type="hidden" id="avatarUrl" name="avatarUrl">
+            <input type="text" name="name" placeholder="Имя" id="name" required>
+            <input type="number" name="age" placeholder="Возраст" id="age">
+
+            <!-- Скрытые поля -->
+            <input type="hidden" id="lat" name="lat">
+            <input type="hidden" id="lon" name="lon">
+            <input type="hidden" id="selected-address" name="selected-address">
+            <!-- Поле для ввода -->
+            <input type="text" id="location" name="location" placeholder="Введите адрес или город" required>
+            <ul id="suggestions-list" class="suggestions"></ul>
+
+            <div class="radio-group">
+                <div class=" radio-option">
+                    <input type="radio" id="male" name="sex" value="M" checked="true">
+                    <label for="male" class="radio-label">Я парень</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="female" name="sex" value="F">
+                    <label for="female" class="radio-label">Я девушка</label>
+                </div>
+            </div>
+            <h4>Кто вам интересен:</h4>
+            <div class="radio-group-find">
+                <div class="radio-option">
+                    <input type="radio" id="find_male" name="sex_find" value="М-find">
+                    <label for="find_male" class="radio-label">Парни</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" id="find_female" name="sex_find" value="F-find" checked="true">
+                    <label for="find_female" class="radio-label">Девушки</label>
+                </div>
+
+            </div>
+
+            <textarea name="about" placeholder="О себе" id="about" required></textarea>
+            <div class="profile-section">
+                <h2>Ваш Telegram</h2>
+
+                <!-- Скрытый ID пользователя -->
+                <input type="hidden" id="tg" value="">
+
+                <!-- Отображение текущего Telegram -->
+                <div class="tg-status confirmed" style="display: none;">
+                    <span class="status-badge success">✅ Подтверждён</span>
+                </div>
+            </div>
+            <div class="form-container code-form" id="codeForm">
+                <h3>Подтвердите Telegram</h3>
+                <p>Введите 6-значный код, полученный в боте.</p>
+
+                <input type="text" id="code" name="code" placeholder="Код подтверждения" maxlength="6">
+                <a href="https://t.me/lynkdating_bot" target="_blank" class="bot-link">Получить код в боте</a>
+                <p id="verificationStatus" class="status-message"></p>
+                <button type="button" id="verifyCode" class="btn verify-btn">Подтвердить</button>
+
+            </div>
+            <button type="submit" class="btn" id="submit">Сохранить</button>
+        </form>
+    </div>
+</body>
+
+</html>
